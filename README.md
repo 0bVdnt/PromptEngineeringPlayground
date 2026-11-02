@@ -2,7 +2,7 @@
 
 A small, dependency-free web application that compares **direct**, **structured** and
 **step-by-step (chain-of-thought style)** prompting on the same question. It was built
-against `[./docs/Prompt_Engineering_Playground_SRS.docx](docs/Prompt_Engineering_Playground_SRS.docx)` (SRS-PEP-001).
+against [`Prompt_Engineering_Playground_SRS.docx`](docs/Prompt_Engineering_Playground_SRS.docx) (SRS-PEP-001).
 
 The app shows the three answers side by side, exposes the exact prompt sent for each
 method, and reports latency and token usage. A local Ollama provider is the default;
