@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.data/
+.env
+.env.*
+.venv/
+venv/
+
+# Test / coverage artifacts
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Editor / OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

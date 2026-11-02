@@ -1,0 +1,38 @@
+[
+  {
+    "id": "Q1",
+    "title": "Process vs thread",
+    "category": "Explanation",
+    "text": "Explain the difference between a process and a thread."
+  },
+  {
+    "id": "Q2",
+    "title": "Cloud trade-offs",
+    "category": "Summarisation",
+    "text": "Summarise the main benefits and limitations of cloud computing in five bullet points."
+  },
+  {
+    "id": "Q3",
+    "title": "Delivery review",
+    "category": "Classification",
+    "text": "Classify the following review as positive, negative, or neutral: \"The product works as expected, but delivery was late.\""
+  },
+  {
+    "id": "Q4",
+    "title": "Discount maths",
+    "category": "Reasoning",
+    "text": "A shop offers a 20% discount on an item priced at ₹1,500. What is the final price?"
+  },
+  {
+    "id": "Q5",
+    "title": "Palindrome check",
+    "category": "Programming",
+    "text": "Write a simple Python function that checks whether a string is a palindrome."
+  },
+  {
+    "id": "Q6",
+    "title": "SQL vs NoSQL",
+    "category": "Comparison",
+    "text": "Compare SQL and NoSQL databases for an application with changing data needs."
+  }
+]

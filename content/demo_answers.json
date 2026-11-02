@@ -1,0 +1,101 @@
+{
+  "Q1": {
+    "answer": "A **process** is an independent running program with its own memory address space; a **thread** is a unit of execution inside a process that shares the process's memory and resources.",
+    "points": [
+      "Processes are isolated from each other, so one process cannot directly read another process's memory; threads share the address space of their parent process.",
+      "Communication between processes needs IPC (pipes, sockets, shared memory); threads can communicate through shared variables, which is faster but needs synchronisation.",
+      "A crash or memory corruption in one process is usually contained; a bad thread can bring down the whole process.",
+      "Creating a process is heavier than creating a thread, and context switches between processes are more expensive."
+    ],
+    "steps": [
+      "Define a process as an instance of a program with its own virtual address space and operating-system resources.",
+      "Define a thread as a schedulable execution path within a process; all threads in a process share code, data and open files.",
+      "Compare the consequences: isolation and failure containment favour processes; low communication and creation overhead favour threads.",
+      "Conclude that processes are the isolation boundary, while threads are the unit of concurrency inside that boundary."
+    ],
+    "confidence": "High",
+    "confidence_why": "This is a standard operating-systems distinction with stable definitions."
+  },
+  "Q2": {
+    "answer": "- **Elasticity:** resources can scale up or down with demand instead of being sized for a peak.\n- **Cost model:** pay-as-you-go turns large capital purchases into variable operating expense.\n- **Managed operations:** the provider handles hardware, patching and much of the availability work.\n- **Global reach:** teams can deploy close to users without building their own data centres.\n- **Limitations:** lock-in, connectivity dependence, data-governance concerns and variable costs can offset the benefits.",
+    "points": [
+      "The main benefits are elasticity, lower upfront cost, managed infrastructure and geographic reach.",
+      "The main limitations are vendor lock-in, dependence on connectivity, governance risk and cost variability.",
+      "Cloud is a trade-off: it is strongest when demand is variable and operational headcount is limited."
+    ],
+    "steps": [
+      "Separate the question into benefits and limitations.",
+      "For benefits, consider capacity, cost, operations and reach.",
+      "For limitations, consider control, portability, connectivity, governance and spending discipline.",
+      "Compress the result into five bullets that cover both sides."
+    ],
+    "confidence": "High",
+    "confidence_why": "The answer covers the standard economic, operational and risk dimensions of cloud computing."
+  },
+  "Q3": {
+    "answer": "**Neutral.** \"Works as expected\" is a neutral statement, and the late delivery adds a mild negative note, but there is no strong positive language.",
+    "points": [
+      "The product itself met expectations; meeting expectations is neither praise nor complaint.",
+      "The late delivery is a concrete negative, but it is the only negative signal.",
+      "With the three allowed labels, neutral is the best fit; mixed would also be defensible if the label set allowed it."
+    ],
+    "steps": [
+      "Identify the sentiment-bearing phrases: \"works as expected\" and \"delivery was late\".",
+      "Classify the first as neutral and the second as mildly negative.",
+      "Weigh them: one neutral fact plus one mild negative does not support a strongly negative overall label.",
+      "Choose neutral, while noting the slight negative lean."
+    ],
+    "confidence": "Medium",
+    "confidence_why": "The review is close to the neutral/mixed boundary, so a reasonable annotator could disagree."
+  },
+  "Q4": {
+    "answer": "The final price is **₹1,200**.",
+    "points": [
+      "20% of ₹1,500 is 0.20 × 1,500 = ₹300.",
+      "Subtract the discount: ₹1,500 − ₹300 = ₹1,200.",
+      "Equivalently, the customer pays 80% of the list price: 0.80 × 1,500 = ₹1,200."
+    ],
+    "steps": [
+      "Convert the discount to a decimal: 20% = 0.20.",
+      "Calculate the discount amount: 0.20 × ₹1,500 = ₹300.",
+      "Subtract it from the original price: ₹1,500 − ₹300 = ₹1,200.",
+      "Check with the complement: 80% of ₹1,500 is also ₹1,200."
+    ],
+    "confidence": "High",
+    "confidence_why": "The arithmetic is direct and can be verified by two methods."
+  },
+  "Q5": {
+    "answer": "Here is a simple Python function that ignores case and non-alphanumeric characters:",
+    "code": "```python\ndef is_palindrome(text: str) -> bool:\n    cleaned = \"\".join(ch.lower() for ch in text if ch.isalnum())\n    return cleaned == cleaned[::-1]\n```",
+    "points": [
+      "Normalise the input by lowercasing and keeping only letters and digits.",
+      "Compare the cleaned string with its reverse.",
+      "The function runs in O(n) time and uses O(n) extra space for the cleaned copy."
+    ],
+    "steps": [
+      "Define a palindrome as a sequence that reads the same forwards and backwards.",
+      "Remove punctuation and spaces, and lowercase the remaining characters so case does not matter.",
+      "Compare the cleaned string to its reverse with Python slicing.",
+      "Return the boolean result; an empty or single-character cleaned string is a palindrome."
+    ],
+    "confidence": "High",
+    "confidence_why": "The implementation is short, standard, and easy to test with examples such as 'A man, a plan, a canal: Panama'."
+  },
+  "Q6": {
+    "answer": "Use **SQL** when the data model and consistency requirements are stable; choose **NoSQL** when access patterns, schema and scale need to evolve quickly.",
+    "points": [
+      "SQL gives a fixed schema, joins, constraints and strong transactional guarantees, which suit changing business rules but stable entities.",
+      "NoSQL gives flexible or denormalised models and horizontal scaling, which suit rapidly changing access patterns and large volumes.",
+      "For changing data needs, start from access patterns and consistency requirements; a document store is often a good fit, while a relational core remains useful for money and transactions.",
+      "Many applications use both: a relational source of truth plus a document or key-value store for specific workloads."
+    ],
+    "steps": [
+      "Identify what is changing: the entities and relationships, the query patterns, the volume, or the consistency requirements.",
+      "SQL is strong when relationships and transactions matter and the schema can be governed.",
+      "NoSQL is strong when the schema is genuinely fluid or when horizontal scale and access-pattern-first design dominate.",
+      "Recommend a decision rule rather than a universal winner, and allow a polyglot design when the workload justifies it."
+    ],
+    "confidence": "High",
+    "confidence_why": "The recommendation is conditional on the kind of change, which is the key distinction in the question."
+  }
+}

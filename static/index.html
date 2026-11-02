@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PromptLab · Prompt Engineering Playground</title>
+  <meta name="description"
+    content="Compare direct, structured and step-by-step prompting on the same question, with the exact prompts, latency and token usage side by side." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-glow glow-a"></span>
+    <span class="ambient-glow glow-b"></span>
+    <span class="ambient-grid"></span>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="PromptLab home">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-name">PromptLab<small>prompt engineering playground</small></span>
+    </a>
+    <div class="topbar-right">
+      <span class="model-chip" id="modelChip" title="The model is configured on the server">loading model…</span>
+      <button class="status-pill" id="providerStatus" type="button" title="Provider status — click to recheck">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting…</span>
+      </button>
+      <button class="quota-pill" id="usageButton" type="button" aria-haspopup="dialog"
+        title="View today's usage limits">
+        <span class="quota-spark" aria-hidden="true"></span>
+        <span id="quotaText">Daily budget</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="banner-wrap">
+    <div class="banner banner-warn" id="healthBanner" hidden role="status">
+      <span class="banner-icon" aria-hidden="true">!</span>
+      <div class="banner-copy">
+        <strong id="healthTitle">Provider unavailable</strong>
+        <span id="healthMessage"></span>
+        <code id="healthHint" hidden></code>
+      </div>
+      <button class="ghost small" id="retryHealth" type="button">
+        Retry
+      </button>
+    </div>
+    <div class="banner banner-demo" id="demoBanner" hidden role="status">
+      <span class="banner-icon" aria-hidden="true">◆</span>
+      <div class="banner-copy">
+        <strong>Demo mode</strong>
+        <span>Answers and latency figures are illustrative. No model is called
+          and no quota is used.</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">
+          <span class="eyebrow-dot"></span> Compare the prompt, not just the
+          answer
+        </p>
+        <h1>
+          Same question.<br /><span class="serif">Three prompt styles.</span>
+        </h1>
+        <p class="lede">
+          Pick a question from the bank, or write your own. PromptLab sends it
+          through a direct prompt, a structured brief and a
+          chain-of-thought-style prompt — then lays the answers, exact prompts
+          and usage side by side.
+        </p>
+        <div class="hero-methods" aria-label="The three methods">
+          <span class="method-chip s-direct"><i></i>Direct</span>
+          <span class="hero-arrow">→</span>
+          <span class="method-chip s-structured"><i></i>Structured</span>
+          <span class="hero-arrow">→</span>
+          <span class="method-chip s-cot" title="Step-by-step explanation"><i></i>Step-by-step</span>
+        </div>
+      </div>
+
+      <aside class="budget-card" aria-label="Daily usage budget">
+        <div class="budget-top">
+          <span class="card-kicker">Daily laboratory budget</span>
+          <button class="link" id="budgetDetails" type="button">
+            Details
+          </button>
+        </div>
+        <div class="budget-main">
+          <div class="ring" id="budgetRing" style="--p: 0">
+            <div class="ring-inner">
+              <strong id="budgetCalls">–</strong>
+              <span>calls left</span>
+            </div>
+          </div>
+          <div class="budget-copy">
+            <p class="budget-headline" id="budgetHeadline">
+              Loading today's quota…
+            </p>
+            <div class="meter-row">
+              <span>Tokens</span>
+              <div class="meter"><i id="budgetTokensBar"></i></div>
+              <b id="budgetTokens">–</b>
+            </div>
+            <div class="meter-row">
+              <span>Spend</span>
+              <div class="meter"><i id="budgetCostBar"></i></div>
+              <b id="budgetCost">–</b>
+            </div>
+          </div>
+        </div>
+        <div class="budget-foot" id="budgetNote">
+          <span class="shield" aria-hidden="true"></span>
+          Three calls per run · paced sequentially · output capped
+        </div>
+      </aside>
+    </section>
+
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Comparison setup">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Step 01</p>
+              <h2>Choose a question</h2>
+            </div>
+            <span class="panel-count" id="questionCount">6 in bank</span>
+          </div>
+          <div class="question-list" id="questionList" role="group" aria-label="Predefined questions"></div>
+
+          <div class="custom-block">
+            <div class="custom-head">
+              <label for="customQuestion">Or ask your own</label>
+              <button class="link" id="clearCustom" type="button" hidden>
+                Clear
+              </button>
+            </div>
+            <textarea id="customQuestion" rows="3" maxlength="2000" placeholder="Type a custom question…"
+              spellcheck="true"></textarea>
+            <div class="custom-foot">
+              <span id="customCount">0 / 2000</span>
+              <span>Writing here selects the custom question.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="panel-kicker">Step 02</p>
+              <h2>Prompt styles</h2>
+            </div>
+            <span class="panel-count">fixed</span>
+          </div>
+          <div class="method-stack" id="methodStack"></div>
+          <p class="panel-note">
+            All three prompts use the same model, temperature and output cap.
+            The prompts themselves are shown with every result.
+          </p>
+        </section>
+      </aside>
+
+      <section class="main-column" aria-label="Comparison">
+        <div class="current-card" id="currentCard">
+          <div class="current-copy">
+            <span class="current-label">Current question</span>
+            <p id="questionSummary">Choose a question to begin.</p>
+          </div>
+          <span class="current-meta" id="questionSummaryMeta">Not selected</span>
+        </div>
+
+        <div class="runbar" id="runBar">
+          <div class="runbar-copy">
+            <span class="runbar-kicker" id="runKicker">Ready to compare</span>
+            <strong id="runSummary">Three prompts, one question</strong>
+            <span class="runbar-estimate" id="runEstimate">Choose a question to see the estimate.</span>
+            <div class="run-progress" id="runProgress" hidden>
+              <i id="runProgressBar"></i>
+            </div>
+          </div>
+          <button class="primary" id="runButton" type="button" disabled>
+            <span class="spinner" id="runSpinner" hidden aria-hidden="true"></span>
+            <span id="runButtonLabel">Compare prompts</span>
+            <span class="btn-arrow" id="runArrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <div class="results-head">
+          <div>
+            <h2>Side-by-side results</h2>
+            <p id="resultsMeta">
+              Results stay in this browser tab. Refresh to clear them.
+            </p>
+          </div>
+          <button class="ghost small" id="clearResults" type="button" disabled>
+            Clear results
+          </button>
+        </div>
+
+        <div id="results" aria-live="polite"></div>
+
+        <div class="qualitative-note" id="qualitativeNote" hidden>
+          <span class="note-mark" aria-hidden="true">i</span>
+          <p>
+            This is a qualitative comparison from one run. Model output is not
+            deterministic, so a single result does not establish that one
+            prompt style is universally better.
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>PromptLab · academic prompt-engineering playground</span>
+    <span class="footer-privacy">
+      Questions and answers live only in this tab. The server stores anonymous
+      usage counters — never prompt text.
+    </span>
+  </footer>
+
+  <dialog class="modal" id="usageDialog" aria-labelledby="usageTitle">
+    <div class="modal-head">
+      <div>
+        <p class="modal-kicker">Guardrails</p>
+        <h2 id="usageTitle">Daily usage budget</h2>
+      </div>
+      <button class="icon-btn" id="closeUsage" type="button" aria-label="Close usage budget">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+          <path d="M3 3l10 10M13 3L3 13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body" id="usageBody"></div>
+    <div class="modal-foot">
+      <span>Counters reset at local midnight.</span>
+      <button class="danger-ghost" id="resetUsage" type="button">
+        Reset counters
+      </button>
+    </div>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "direct",
+    "label": "Direct",
+    "tagline": "The question, with minimal extra instruction.",
+    "description": "A baseline: send the question as-is with one short style instruction. This shows what the model produces without structural help.",
+    "color": "amber",
+    "system": "You are a helpful assistant. Answer the user's question directly and concisely.",
+    "template": "{question}"
+  },
+  {
+    "id": "structured",
+    "label": "Structured",
+    "tagline": "Task, context, constraints and output format.",
+    "description": "An explicit brief. The question is preserved, but the prompt adds context, constraints and a fixed response shape so relevance and format are easier to judge.",
+    "color": "cyan",
+    "system": "You are a precise assistant. Follow the task, context, constraints, and output format exactly.",
+    "template": "Task:\n{question}\n\nContext:\nUse only the task above and general knowledge. If a material assumption is required, state it briefly.\n\nConstraints:\n- Be accurate and concise.\n- Do not invent facts.\n- If the task is ambiguous, resolve it explicitly.\n\nOutput format:\n**Answer** - a direct answer in 1-2 sentences.\n**Key points** - 2-3 bullets with the reasoning or assumptions that matter.\n**Confidence** - High, Medium, or Low, with a one-sentence justification."
+  },
+  {
+    "id": "cot",
+    "label": "Step-by-step explanation",
+    "tagline": "Chain-of-thought style, explained for the user.",
+    "description": "The prompt asks the model to reason carefully and present a concise, user-facing explanation of the key steps before its final answer. It does not request private internal reasoning.",
+    "color": "violet",
+    "system": "You are a careful problem solver. Work through the problem methodically and check your work before answering.",
+    "template": "Task:\n{question}\n\nWork through the problem carefully. In your final response, give a concise, user-facing explanation of the key steps - not private chain-of-thought. Check your work, then finish with:\n\n**Final answer:** <a concise final answer>"
+  }
+]
